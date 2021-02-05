@@ -1,6 +1,6 @@
 FROM alpine
 
-EXPOSE 4000:8080
+EXPOSE 8080
 
 RUN apk add --update-cache \
     python3 \
@@ -11,7 +11,8 @@ RUN apk add --update-cache \
 COPY requirements.txt /app/
 RUN pip install --requirement /app/requirements.txt
 COPY . /app/
+WORKDIR /app/app
 
-CMD ["/app/app_test.py"]
-CMD python /app/app_test.py
-ENTRYPOINT ["python3"]
+
+ENTRYPOINT FLASK_APP=app.py flask run --host=0.0.0.0
+CMD [ "run", "--host", "0.0.0.0" ]
